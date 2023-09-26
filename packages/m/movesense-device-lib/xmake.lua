@@ -1,0 +1,22 @@
+package("movesense-device-lib")
+    set_homepage("https://bitbucket.org/movesense/movesense-device-lib/")
+    set_description("Movesense SDK")
+    set_license("SDK")
+
+    add_urls("https://bitbucket.org/movesense/movesense-device-lib/get/release_$(version).zip")
+    add_versions("2.1.5", "a257574d87cc490095006d3fad98cddfb150a35969ba244b735444e9ff23c405")
+
+    on_install(function (package)
+        io.replace("MovesenseCoreLib/include/whiteboard/src/whiteboard/integration/port.h", "WB_BSP", "\"wbintegration-bsp/bsp.h\"", {plain = true})
+        os.cp("MovesenseCoreLib/include/*.h", package:installdir("include"))
+        os.cp("MovesenseCoreLib/include/*.hpp", package:installdir("include"))
+        os.cp("MovesenseCoreLib/include/whiteboard/src/whiteboard/**", package:installdir("include/whiteboard"))
+        os.cp("MovesenseCoreLib/include/wbintegration-bsp/**", package:installdir("include/wbintegration-bsp"))
+        os.cp("MovesenseCoreLib/include/platform/**", package:installdir("include/platform"))
+        os.cp("MovesenseCoreLib/include/oswrapper/**", package:installdir("include/oswrapper"))
+        os.cp("MovesenseCoreLib/include/common/**", package:installdir("include/common"))
+    end)
+    
+    on_test(function (package)
+        assert(package:has_cfuncs("MOVESENSE_APPLICATION_STACKSIZE", {includes = "movesense.h"}))
+    end)
