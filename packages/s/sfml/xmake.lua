@@ -33,6 +33,9 @@ package("sfml")
         component:add("links", "sfml-graphics" .. e)
         component:add("deps", "window", "system")
         component:add("extsources", "brew::sfml/sfml-graphics")
+        if package:is_plat("windows") then
+            component:add("syslinks", "ole32")
+        end
     end)
 
     on_component("window", function (package, component)
@@ -67,6 +70,7 @@ package("sfml")
         component:add("deps", "system")
         component:add("extsources", "brew::sfml/sfml-audio")
         if not package:config("shared") and package:is_plat("windows", "mingw") then
+            component:add("syslinks", "shell32")
             component:add("links", "openal32", "flac", "vorbisenc", "vorbisfile", "vorbis", "ogg")
         end
     end)
@@ -129,6 +133,9 @@ package("sfml")
         end
 
         if package:config("graphics") then
+            package:add("deps", "brotli")
+            package:add("deps", "bzip2")
+            package:add("deps", "libpng")
             package:add("deps", "freetype")
         end
 
@@ -235,6 +242,9 @@ package("sfml")
         end
         if package:config("graphics") then
             packagedeps = packagedeps or {}
+            table.insert(packagedeps, "brotli")
+            table.insert(packagedeps, "bzip2")
+            table.insert(packagedeps, "libpng")
             table.insert(packagedeps, "freetype")
             table.insert(packagedeps, "zlib")
         end
