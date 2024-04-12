@@ -13,9 +13,7 @@ package("seqan3")
     add_configs("zlib", {description = "required for *.gz and .bam file support", default = false, type = "boolean"})
     add_configs("bzip2", {description = "required for *.bz2 file support", default = false, type = "boolean"})
 
-    if is_plat("windows") then
-        add_cxxflags("/Zc:__cplusplus")
-    elseif is_plat("linux") then
+    if is_plat("linux") then
         add_syslinks("pthread")
     end
 
@@ -40,10 +38,14 @@ package("seqan3")
     end)
 
     on_test(function (package)
+        local cxflags = {}
+        if package:is_plat("windows") then
+            table.insert(cxflags, "/Zc:__cplusplus")
+        end
         assert(package:check_cxxsnippets({test = [[
             #include <seqan3/core/debug_stream.hpp>
             void test() {
                 seqan3::debug_stream << "Hello World!\n";
             }
-        ]]}, {configs = {languages = "c++20"}}))
+        ]]}, {configs = {languages = "c++20", cxflags = cxflags}}))
     end)

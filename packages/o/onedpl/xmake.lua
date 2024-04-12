@@ -10,15 +10,13 @@ package("onedpl")
     add_configs("backend", {description = "Choose threading backend.", default = "tbb", type = "string", values = {"tbb", "dpcpp", "dpcpp_only", "omp", "serial"}})
 
     add_deps("cmake")
+
     on_load("windows", "linux", function (package)
         local backend = package:config("backend")
         if backend == "tbb" or backend == "dpcpp" then
             package:add("deps", "tbb")
         elseif backend == "omp" then
             package:add("deps", "openmp")
-        end
-        if package:is_plat("windows") then
-            package:add("cxxflags", "/Zc:__cplusplus")
         end
     end)
 
@@ -31,6 +29,10 @@ package("onedpl")
     end)
 
     on_test(function (package)
+        local cxflags = {}
+        if package:is_plat("windows") then
+            table.insert(cxflags, "/Zc:__cplusplus")
+        end
         assert(package:check_cxxsnippets({test = [[
             #include <oneapi/dpl/algorithm>
             #include <oneapi/dpl/execution>
@@ -42,5 +44,5 @@ package("onedpl")
                 double res = std::transform_reduce(oneapi::dpl::execution::par_unseq,
                                                    v1.cbegin(), v1.cend(), v2.cbegin(), .0);
             }
-        ]]}, {configs = {languages = "c++17"}}))
+        ]]}, {configs = {languages = "c++17", cxflags = cxflags}}))
     end)

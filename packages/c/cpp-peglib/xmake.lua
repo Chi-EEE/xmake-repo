@@ -11,13 +11,14 @@ package("cpp-peglib")
     add_versions("1.8.3", "3de8aeb44a262f9c2478e2a7e7bc2bb9426a2bdd176cf0654ff5a3d291c77b73")
 
     on_install(function (package)
-        if package:is_plat("windows") then
-            package:add("cxxflags", "/Zc:__cplusplus")
-        end
         os.cp("peglib.h", package:installdir("include"))
     end)
 
     on_test(function (package)
+        local cxflags = {}
+        if package:is_plat("windows") then
+            table.insert(cxflags, "/Zc:__cplusplus")
+        end
         assert(package:check_cxxsnippets({test = [[
             #include <peglib.h>
             #include <assert.h>
@@ -35,5 +36,5 @@ package("cpp-peglib")
                 
                 assert(static_cast<bool>(parser) == true);
             }
-        ]]}, {configs = {languages = "c++17"}}))
+        ]]}, {configs = {languages = "c++17", cxflags = cxflags}}))
     end)
