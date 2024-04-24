@@ -15,6 +15,10 @@ package("concord")
     add_deps("libcurl")
 
     on_install("!windows", function (package)
+        for _, file in ipairs(os.files("gencodecs/**.PRE.h")) do
+            io.replace(file, ".PRE", "", {plain = true})
+            os.mv(file, file:gsub(".PRE", ""))
+        end
         io.writefile("xmake.lua", [[
             add_rules("mode.release", "mode.debug")
             add_requires("libcurl")
@@ -24,7 +28,7 @@ package("concord")
                 add_files("src/*.c")
                 add_headerfiles("core/(*.h)", {prefixdir = "concord"})
                 add_headerfiles("include/(*.h)", {prefixdir = "concord"})
-                add_headerfiles("gencodecs/(*.h)", {prefixdir = "concord"})
+                add_headerfiles("gencodecs/(**.h)", {prefixdir = "concord"})
                 add_includedirs("core", "include", "gencodecs")
         ]])
         import("package.tools.xmake").install(package)
