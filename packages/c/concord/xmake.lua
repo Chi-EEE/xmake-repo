@@ -24,6 +24,7 @@ package("concord")
             add_requires("libcurl")
             target("concord")
                 set_kind("$(kind)")
+                set_languages("c99")
                 add_packages("libcurl")
                 add_defines("GENCODECS_INIT","GENCODECS_JSON_ENCODER","GENCODECS_JSON_DECODER")
                 add_files("src/*.c")
@@ -46,5 +47,5 @@ package("concord")
             ret.sync = &bot;
             discord_user_cleanup(&bot);
         }
-        ]]}, {configs = {languages = "cxx11"}}))
+        ]]}, {configs = {languages = "c99"}}))
     end)
