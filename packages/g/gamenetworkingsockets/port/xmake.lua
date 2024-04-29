@@ -10,6 +10,7 @@ if has_config("webrtc") then
         add_rules("c++")
         set_kind("static")
         set_languages("gnu11")
+        add_packages("protobuf-cpp", "openssl", "abseil")
 
         if is_plat("windows") then
             add_defines("WEBRTC_WIN", "NOMINMAX", "WIN32_LEAN_AND_MEAN", "_WINSOCKAPI_")
@@ -406,13 +407,14 @@ if has_config("webrtc") then
             add_syslinks("pthread")
             add_cxflags("-Wno-attributes")
         end
-        set_languages("cxx17")
-        add_packages("openssl", "abseil")
         add_includedirs("src/external/webrtc")
 
     target("steamwebrtc")
         set_kind("static")
         add_rules("c++")
+        set_languages("cxx17")
+        add_deps("webrtc-lite")
+       
         if is_plat("windows") then
             add_defines("WEBRTC_WIN", "NOMINMAX", "WIN32_LEAN_AND_MEAN", "_WINSOCKAPI_")
             add_cxflags("/wd4715", "/wd4005", "/wd4996", "/wd4530")
@@ -420,11 +422,10 @@ if has_config("webrtc") then
             add_ldflags("-Wl", "--no-undefined")
             add_defines("WEBRTC_POSIX", "WEBRTC_LINUX")
         end
+
         add_files("src/external/steamwebrtc/ice_session.cpp")
         add_includedirs("src/external/webrtc")
-        set_languages("cxx17")
-        add_deps("webrtc-lite")
-        add_packages("abseil")
+        
 end
 
 target("gns") -- we need limit path length
