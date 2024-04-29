@@ -437,8 +437,6 @@ target("gns") -- we need limit path length
     add_packages("protobuf-cpp", {public = true})
     add_rules("protobuf.cpp")
 
-    add_headerfiles("$(buildir)/proto/(**.h)")
-
     add_packages("openssl")
     set_basename("gamenetworkingsockets")
 
@@ -492,7 +490,7 @@ target("gns") -- we need limit path length
 
     add_files(  "src/common/steamnetworkingsockets_messages_certs.proto",
                 "src/common/steamnetworkingsockets_messages.proto",
-                "src/common/steamnetworkingsockets_messages_udp.proto", {proto_autogendir = path.join("$(buildir)", "proto"), proto_public = true})
+                "src/common/steamnetworkingsockets_messages_udp.proto")
     add_files(  "src/common/crypto.cpp",
                 "src/common/crypto_textencode.cpp",
                 "src/common/keypair.cpp",
