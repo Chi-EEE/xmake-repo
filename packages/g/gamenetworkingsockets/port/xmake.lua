@@ -2,7 +2,6 @@ option("webrtc", {default = false, showmenu = true})
 
 add_rules("mode.debug", "mode.release")
 
-add_requires("abseil")
 add_requires("protobuf-cpp 3.19.4", "openssl")
 
 if has_config("webrtc") then
