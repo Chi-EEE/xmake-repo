@@ -24,7 +24,7 @@ package("gamenetworkingsockets")
     on_load("windows", "linux", function(package)
         if not package:config("shared") then
             package:add("defines", "STEAMNETWORKINGSOCKETS_STATIC_LINK")
-            package:add("deps", "openssl", "protobuf-cpp")
+            package:add("deps", "openssl", "protobuf-cpp 3.19.4")
             if package:config("webrtc") then
                 package:add("deps", "abseil")
             end
