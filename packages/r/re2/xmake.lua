@@ -34,7 +34,7 @@ package("re2")
         table.insert(configs, "-DCMAKE_CXX_STANDARD=17")
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
         table.insert(configs, "-DBUILD_SHARED_LIBS=" .. (package:config("shared") and "ON" or "OFF"))
-        import("package.tools.cmake").install(package, configs)
+        import("package.tools.cmake").install(package, configs, {packagedeps = {"abseil"}})
     end)
 
     on_test(function (package)
