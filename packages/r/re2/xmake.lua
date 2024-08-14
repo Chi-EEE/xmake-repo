@@ -28,7 +28,7 @@ package("re2")
         end
     end)
 
-    on_install("macosx", "linux", "windows", "mingw", "cross", function (package)
+    on_install(function (package)
         local configs = {"-DRE2_BUILD_TESTING=OFF"}
         table.insert(configs, "-DCMAKE_CXX_STANDARD=17")
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
