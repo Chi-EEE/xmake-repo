@@ -32,7 +32,8 @@ package("re2")
     on_install(function (package)
         local configs = {
             "-DRE2_BUILD_TESTING=OFF",
-            "-DCMAKE_CXX_STANDARD=17"
+            "-DCMAKE_CXX_STANDARD=17",
+            "-Dabsl_DIR=" .. package:dep("abseil"):installdir()
         }
         io.replace("CMakeLists.txt", "find_package(absl REQUIRED)", "find_package(absl REQUIRED CONFIG)", {plain = true})
 
