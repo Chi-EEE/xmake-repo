@@ -24,7 +24,9 @@ package("abseil")
 
     add_configs("cxx_standard", {description = "Select c++ standard to build.", default = "17", type = "string", values = {"14", "17", "20"}})
 
-    if is_plat("macosx") then
+    if is_plat("linux") then
+        add_syslinks("pthread")
+    elseif is_plat("macosx") then
         add_frameworks("CoreFoundation")
     end
 
