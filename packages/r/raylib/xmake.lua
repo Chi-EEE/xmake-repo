@@ -37,7 +37,7 @@ package("raylib")
     end
 
     if is_plat("macosx") then
-        add_frameworks("CoreVideo", "CoreGraphics", "AppKit", "IOKit", "CoreFoundation", "Foundation")
+        add_frameworks("CoreVideo", "CoreGraphics", "Carbon", "AppKit", "IOKit", "CoreFoundation", "Foundation")
     elseif is_plat("windows", "mingw") then
         add_syslinks("gdi32", "user32", "winmm", "shell32")
     elseif is_plat("linux") then
