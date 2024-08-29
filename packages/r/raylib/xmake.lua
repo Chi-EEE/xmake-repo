@@ -40,7 +40,7 @@ package("raylib")
         add_frameworks("CoreVideo", "CoreGraphics", "Carbon", "AppKit", "IOKit", "CoreFoundation", "Foundation")
     elseif is_plat("windows", "mingw") then
         add_syslinks("gdi32", "user32", "winmm", "shell32")
-    elseif is_plat("linux") then
+    elseif is_plat("linux", "cross") then
         add_syslinks("pthread", "dl", "m")
         add_deps("libx11", "libxrandr", "libxrender", "libxinerama", "libxcursor", "libxi", "libxfixes", "libxext")
     end
