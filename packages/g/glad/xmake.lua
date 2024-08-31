@@ -14,7 +14,7 @@ package("glad")
     if is_plat("linux") then
         add_syslinks("dl")
     end
-    on_load("windows", "linux", "macosx", "mingw", function (package)
+    on_load(function (package)
         if not package.is_built or package:is_built() then
             package:add("deps", "cmake")
             package:add("deps", "python 3.x", {kind = "binary"})
@@ -28,7 +28,7 @@ package("glad")
     add_configs("generator", {description = "Generator", default = "c", type = "string", values = {"c", "c-debug", "d", "nim", "pascal", "volt"}})
     add_configs("spec", {description = "OpenGL spec", default = "gl", type = "string"})
 
-    on_install("windows", "linux", "macosx", "mingw", function (package)
+    on_install(function (package)
         local configs = {"-DGLAD_INSTALL=ON"}
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
         table.insert(configs, "-DBUILD_SHARED_LIBS=" .. (package:config("shared") and "ON" or "OFF"))

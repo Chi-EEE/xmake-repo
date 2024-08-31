@@ -33,7 +33,7 @@ package("cpptrace")
         add_syslinks("dbghelp")
     end
 
-    on_install("linux", "macosx", "windows", "mingw", function (package)
+    on_install(function (package)
         io.replace("CMakeLists.txt", "/WX", "", {plain = true})
 
         local configs = {}

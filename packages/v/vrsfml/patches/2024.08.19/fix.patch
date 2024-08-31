@@ -1,0 +1,111 @@
+diff --git a/include/SFML/Audio/SoundBuffer.hpp b/include/SFML/Audio/SoundBuffer.hpp
+index c35bf8f6c..7a89d9ef2 100644
+--- a/include/SFML/Audio/SoundBuffer.hpp
++++ b/include/SFML/Audio/SoundBuffer.hpp
+@@ -291,7 +291,7 @@ private:
+     // Member data
+     ////////////////////////////////////////////////////////////
+     struct Impl;
+-    base::InPlacePImpl<Impl, 128> m_impl; //!< Implementation details
++    base::InPlacePImpl<Impl, 320> m_impl; //!< Implementation details
+ 
+     ////////////////////////////////////////////////////////////
+     // Lifetime tracking
+diff --git a/include/SFML/Audio/SoundBufferRecorder.hpp b/include/SFML/Audio/SoundBufferRecorder.hpp
+index fd9cd3fc3..723105197 100644
+--- a/include/SFML/Audio/SoundBufferRecorder.hpp
++++ b/include/SFML/Audio/SoundBufferRecorder.hpp
+@@ -89,7 +89,7 @@ private:
+     // Member data
+     ////////////////////////////////////////////////////////////
+     struct Impl;
+-    base::InPlacePImpl<Impl, 256> m_impl; //!< Implementation details
++    base::InPlacePImpl<Impl, 512> m_impl; //!< Implementation details
+ };
+ 
+ } // namespace sf
+diff --git a/include/SFML/Base/Math/Atan2.hpp b/include/SFML/Base/Math/Atan2.hpp
+index 1dd54c6a3..4c39f6af0 100644
+--- a/include/SFML/Base/Math/Atan2.hpp
++++ b/include/SFML/Base/Math/Atan2.hpp
+@@ -1,6 +1,6 @@
+ #pragma once
+ #include <SFML/Copyright.hpp> // LICENSE AND COPYRIGHT (C) INFORMATION
+-
++#include <cmath>
+ 
+ ////////////////////////////////////////////////////////////
+ #include "SFML/Base/Math/Impl.hpp"
+diff --git a/include/SFML/Base/Math/Cos.hpp b/include/SFML/Base/Math/Cos.hpp
+index 909b2acee..8e45f1c89 100644
+--- a/include/SFML/Base/Math/Cos.hpp
++++ b/include/SFML/Base/Math/Cos.hpp
+@@ -1,6 +1,6 @@
+ #pragma once
+ #include <SFML/Copyright.hpp> // LICENSE AND COPYRIGHT (C) INFORMATION
+-
++#include <cmath>
+ 
+ ////////////////////////////////////////////////////////////
+ #include "SFML/Base/Math/Impl.hpp"
+diff --git a/include/SFML/Base/Math/Sin.hpp b/include/SFML/Base/Math/Sin.hpp
+index 26caa6b68..e1d5e9147 100644
+--- a/include/SFML/Base/Math/Sin.hpp
++++ b/include/SFML/Base/Math/Sin.hpp
+@@ -1,6 +1,6 @@
+ #pragma once
+ #include <SFML/Copyright.hpp> // LICENSE AND COPYRIGHT (C) INFORMATION
+-
++#include <cmath>
+ 
+ ////////////////////////////////////////////////////////////
+ #include "SFML/Base/Math/Impl.hpp"
+diff --git a/include/SFML/Base/Math/Sqrt.hpp b/include/SFML/Base/Math/Sqrt.hpp
+index dad3ea85e..b38382985 100644
+--- a/include/SFML/Base/Math/Sqrt.hpp
++++ b/include/SFML/Base/Math/Sqrt.hpp
+@@ -1,6 +1,6 @@
+ #pragma once
+ #include <SFML/Copyright.hpp> // LICENSE AND COPYRIGHT (C) INFORMATION
+-
++#include <cmath>
+ 
+ ////////////////////////////////////////////////////////////
+ #include "SFML/Base/Math/Impl.hpp"
+diff --git a/include/SFML/System/Vector2.hpp b/include/SFML/System/Vector2.hpp
+index 9c38a36be..d2d631992 100644
+--- a/include/SFML/System/Vector2.hpp
++++ b/include/SFML/System/Vector2.hpp
+@@ -183,9 +183,9 @@ public:
+     // Static member data
+     ////////////////////////////////////////////////////////////
+     // NOLINTBEGIN(readability-identifier-naming)
+-    SFML_API_EXPORT static const Vector2 UnitX; //!< The X unit vector (1, 0), usually facing right
+-    SFML_API_EXPORT static const Vector2 UnitY; //!< The Y unit vector (0, 1), usually facing down
+-    SFML_API_EXPORT static const Vector2 Zero;  //!< The zero vector (0, 0)
++    SFML_API_EXPORT static Vector2 UnitX; //!< The X unit vector (1, 0), usually facing right
++    SFML_API_EXPORT static Vector2 UnitY; //!< The Y unit vector (0, 1), usually facing down
++    SFML_API_EXPORT static Vector2 Zero;  //!< The zero vector (0, 0)
+     // NOLINTEND(readability-identifier-naming)
+ };
+ 
+diff --git a/include/SFML/System/Vector2.inl b/include/SFML/System/Vector2.inl
+index 8f17debdb..98de85044 100644
+--- a/include/SFML/System/Vector2.inl
++++ b/include/SFML/System/Vector2.inl
+@@ -287,12 +287,12 @@ constexpr OtherVector2 Vector2<T>::to() const
+ ////////////////////////////////////////////////////////////
+ 
+ template <typename T>
+-inline constexpr Vector2<T> Vector2<T>::UnitX(static_cast<T>(1), static_cast<T>(0));
++inline Vector2<T> Vector2<T>::UnitX(static_cast<T>(1), static_cast<T>(0));
+ 
+ template <typename T>
+-inline constexpr Vector2<T> Vector2<T>::UnitY(static_cast<T>(0), static_cast<T>(1));
++inline Vector2<T> Vector2<T>::UnitY(static_cast<T>(0), static_cast<T>(1));
+ 
+ template <typename T>
+-inline constexpr Vector2<T> Vector2<T>::Zero(static_cast<T>(0), static_cast<T>(0));
++inline Vector2<T> Vector2<T>::Zero(static_cast<T>(0), static_cast<T>(0));
+ 
+ } // namespace sf

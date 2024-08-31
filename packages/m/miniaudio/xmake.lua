@@ -20,6 +20,7 @@ package("miniaudio")
 
     on_install(function (package)
         os.cp("miniaudio.h", package:installdir("include"))
+        os.cp("extras/miniaudio_split/miniaudio.c", package:installdir("include"))
     end)
 
     on_test(function (package)
