@@ -35,6 +35,7 @@ package("quickjs-ng")
             table.insert(configs, "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON")
         end
         import("package.tools.cmake").install(package, configs)
+        os.cp("quickjs.h", package:installdir("include"))
     end)
 
     on_test(function (package)
