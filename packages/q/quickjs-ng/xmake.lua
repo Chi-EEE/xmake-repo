@@ -12,6 +12,13 @@ package("quickjs-ng")
     if is_plat("linux", "bsd") then
         add_syslinks("m", "pthread")
     end
+    
+    if on_check then
+        on_check("windows", function (package)
+            assert(package:has_cincludes("stdatomic.h", {configs = {languages = "c11"}}),
+             "package(neco) Require at least C11 and stdatomic.h")
+        end)
+    end
 
     add_deps("mimalloc")
     add_deps("cmake")
