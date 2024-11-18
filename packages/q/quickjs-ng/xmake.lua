@@ -15,8 +15,12 @@ package("quickjs-ng")
 
     if on_check then
         on_check("windows", function (package)
-            assert(package:has_cincludes("stdatomic.h", {configs = {languages = "c11"}}),
-             "package(quickjs-ng) Require at least C11 and stdatomic.h")
+                local configs = {languages = "c11"}
+                if package:has_tool("cc", "cl") then
+                    configs.cflags = "/experimental:c11atomics"
+                end
+                assert(package:has_cincludes("stdatomic.h", {configs = configs}),
+                "package(quickjs-ng) Requires at least C11 and stdatomic.h")
         end)
     end
 
