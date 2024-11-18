@@ -3,12 +3,9 @@ package("quickjs-ng")
     set_description("QuickJS, the Next Generation: a mighty JavaScript engine")
     set_license("MIT")
 
-    add_urls("https://github.com/quickjs-ng/quickjs/archive/refs/tags/$(version).tar.gz",
-             "https://github.com/quickjs-ng/quickjs.git", {submodules = false})
+    add_urls("https://github.com/quickjs-ng/quickjs.git", {submodules = false})
 
-    add_versions("v0.7.0", "46c45cc2ed174474765dac8e41062998d92c4dd5fd779624da4073d6cd430eeb")
-    add_versions("v0.6.1", "276edbb30896cdf2eee12a8bdb5b9c1cc2734eac8c898de6d52268ae201e614d")
-    add_versions("v0.5.0", "41212a6fb84bfe07d61772c02513734b7a06465843ba8f76f1ce1e5df866f489")
+    add_versions("18.11.2024", "55b67a6591071b2ada8895a7000e0fec5f348016")
 
     add_configs("libc", {description = "Build standard library modules as part of the library", default = false, type = "boolean"})
 
