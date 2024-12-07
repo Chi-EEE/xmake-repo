@@ -31,6 +31,7 @@ package("quickjs-ng")
     end
 
     on_install(function (package)
+        io.replace("quickjs.c", "#include <stdlib.h>", "#include <stdlib.h>\n#include <cmath>", {plain = true})
         io.replace("CMakeLists.txt", "xcheck_add_c_compiler_flag(-Werror)", "", {plain = true})
         io.replace("CMakeLists.txt", "if(NOT WIN32 AND NOT EMSCRIPTEN)", "if(0)", {plain = true})
 
