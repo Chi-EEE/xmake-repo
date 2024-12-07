@@ -13,7 +13,7 @@ package("quickjs-ng")
 
     add_configs("libc", {description = "Build standard library modules as part of the library", default = false, type = "boolean"})
 
-    if is_plat("linux", "bsd") then
+    if is_plat("linux", "bsd", "cross") then
         add_syslinks("m", "pthread")
     end
 
@@ -31,7 +31,6 @@ package("quickjs-ng")
     end
 
     on_install(function (package)
-        io.replace("quickjs.c", "#include <stdlib.h>", "#include <stdlib.h>\n#include <cmath>", {plain = true})
         io.replace("CMakeLists.txt", "xcheck_add_c_compiler_flag(-Werror)", "", {plain = true})
         io.replace("CMakeLists.txt", "if(NOT WIN32 AND NOT EMSCRIPTEN)", "if(0)", {plain = true})
 
