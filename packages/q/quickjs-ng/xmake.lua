@@ -13,7 +13,7 @@ package("quickjs-ng")
 
     add_configs("libc", {description = "Build standard library modules as part of the library", default = false, type = "boolean"})
 
-    if is_plat("linux", "bsd", "cross") then
+    if is_plat("linux", "bsd", "wasm", "cross") then
         add_syslinks("m", "pthread")
     end
 
