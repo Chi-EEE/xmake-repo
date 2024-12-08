@@ -1,4 +1,4 @@
-package("package_with_dep_error")
+package("package_config_error")
     add_configs("hide_existing_package_error_1", {default = false, type = "boolean"})
 
     on_load(function (package)
