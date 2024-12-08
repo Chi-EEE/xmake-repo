@@ -6,13 +6,14 @@ package("quickjs-ng")
     add_urls("https://github.com/quickjs-ng/quickjs/archive/refs/tags/$(version).tar.gz",
              "https://github.com/quickjs-ng/quickjs.git", {submodules = false})
 
+    add_versions("2024.11.04", "66732e78ef0ba82bb0f75386ca4ea5b5814668fb")
     add_versions("v0.7.0", "46c45cc2ed174474765dac8e41062998d92c4dd5fd779624da4073d6cd430eeb")
     add_versions("v0.6.1", "276edbb30896cdf2eee12a8bdb5b9c1cc2734eac8c898de6d52268ae201e614d")
     add_versions("v0.5.0", "41212a6fb84bfe07d61772c02513734b7a06465843ba8f76f1ce1e5df866f489")
 
     add_configs("libc", {description = "Build standard library modules as part of the library", default = false, type = "boolean"})
 
-    if is_plat("linux", "bsd") then
+    if is_plat("linux", "bsd", "wasm", "cross") then
         add_syslinks("m", "pthread")
     end
 
@@ -29,7 +30,7 @@ package("quickjs-ng")
         end)
     end
 
-    on_install("!iphoneos and (!windows or windows|!x86)", function (package)
+    on_install(function (package)
         io.replace("CMakeLists.txt", "xcheck_add_c_compiler_flag(-Werror)", "", {plain = true})
         io.replace("CMakeLists.txt", "if(NOT WIN32 AND NOT EMSCRIPTEN)", "if(0)", {plain = true})
 
