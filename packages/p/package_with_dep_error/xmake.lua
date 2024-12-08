@@ -1,5 +1,5 @@
 package("package_with_dep_error")
-    add_deps("package_config_error", {configs = {hide_existing_package_error_1 = true}})
+    add_deps("package_config_error", {configs = {hide_existing_package_error_1 = is_plat("windows")}})
 
     on_load(function (package)
     end)
