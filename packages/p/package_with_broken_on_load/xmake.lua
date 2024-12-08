@@ -1,5 +1,6 @@
 package("package_with_broken_on_load")
-    add_configs("hide_existing_package_error", {default = is_plat("windows"), type = "boolean"})
+    add_configs("hide_existing_package_error_1", {default = is_plat("windows"), type = "boolean"})
+    add_configs("hide_existing_package_error_2", {default = is_plat("macosx"), type = "boolean"})
 
     if on_check then
         on_check(function (package)
@@ -10,9 +11,11 @@ package("package_with_broken_on_load")
     end
 
     on_load(function (package)
-        if package:config("hide_existing_package_error") then
-            add_syslinks("advapi32")
-            raise("This package is broken on purpose.")
+        if package:config("hide_existing_package_error_1") then -- CI does not check this
+            add_syslinks("advapi32") -- incorrect method
+        end
+        if package:config("hide_existing_package_error_2") then -- CI does not check this
+            raise("This package is broken on purpose.") -- raise inside of on_load
         end
     end)
 
