@@ -25,6 +25,7 @@ package("libigl")
     end
 
     add_deps("cmake", "eigen")
+
     on_load("macosx", "linux", "windows", "mingw", function (package)
         if package:config("header_only") then
             package:set("kind", "library", {headeronly = true})

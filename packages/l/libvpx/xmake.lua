@@ -23,12 +23,6 @@ package("libvpx")
     add_configs("webm_io",          {description = "enable input from and output to WebM container", default = false, type = "boolean"})
     add_configs("libyuv",           {description = "enable libyuv", default = false, type = "boolean"})
 
-    on_load(function (package)
-        if package:config("libyuv") then
-            package:add("deps", "libyuv")
-        end
-    end)
-
     if on_check then
         on_check(function (package)
             if package:has_tool("cxx", "clang") and package:is_arch("x64", "x86_64") then
@@ -36,6 +30,12 @@ package("libvpx")
             end
         end)
     end
+
+    on_load(function (package)
+        if package:config("libyuv") then
+            package:add("deps", "libyuv")
+        end
+    end)
 
     on_install("linux", "macosx", function (package)
         local configs = {"--disable-dependency-tracking", "--disable-examples", "--disable-docs", "--as=yasm", "--disable-unit-tests"}

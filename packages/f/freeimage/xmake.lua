@@ -17,6 +17,19 @@ package("freeimage")
     if is_plat("macosx") then
         add_deps("libpng")
     end
+
+    if on_check then
+        on_check("windows|x86", function (package)
+            import("core.tool.toolchain")
+
+            local msvc = toolchain.load("msvc", {plat = package:plat(), arch = package:arch()})
+            if msvc then
+                local vs = msvc:config("vs")
+                assert(vs and tonumber(vs) >= 2019, "package(field3d): current version need vs >= 2019")
+            end
+        end)
+    end
+
     on_load("windows", function (package)
         if not package:config("shared") then
             package:add("defines", "FREEIMAGE_LIB")
@@ -24,12 +37,6 @@ package("freeimage")
     end)
 
     on_install("windows|x64", "windows|x86", "macosx", "linux", function (package)
-        if package:is_plat("windows") and package:is_arch("x86") then
-            local vs = import("core.tool.toolchain").load("msvc"):config("vs")
-            if tonumber(vs) < 2019 then
-                raise("Your compiler is too old to use this library.")
-            end
-        end
         local sources, includes
         local content = io.readfile("Makefile.srcs")
         sources = content:match("SRCS = (.-)\n"):split(" ")

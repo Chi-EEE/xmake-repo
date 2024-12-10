@@ -31,6 +31,18 @@ package("matplotplusplus")
         add_syslinks("user32", "shell32", "gdi32")
     end
 
+    if on_check then
+        on_check("windows", function (package)
+            import("core.tool.toolchain")
+
+            local msvc = toolchain.load("msvc", {plat = package:plat(), arch = package:arch()})
+            if msvc then
+                local vs = msvc:config("vs")
+                assert(vs and tonumber(vs) >= 2019, "package(matplotplusplus): current version need vs >= 2019")
+            end
+        end)
+    end
+
     on_load("windows", "macosx", "linux", function (package)
         for config, dep in pairs(configdeps) do
             if package:config(config) then
@@ -40,13 +52,6 @@ package("matplotplusplus")
     end)
 
     on_install("windows", "macosx", "linux", function (package)
-        if package:is_plat("windows") then
-            local vs = import("core.tool.toolchain").load("msvc"):config("vs")
-            if tonumber(vs) < 2019 then
-                raise("Your compiler is too old to use this library.")
-            end
-        end
-
         local configs = {
             "-DBUILD_EXAMPLES=OFF",
             "-DMATPLOTPP_BUILD_EXAMPLES=OFF",

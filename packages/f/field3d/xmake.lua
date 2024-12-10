@@ -17,6 +17,18 @@ package("field3d")
         add_syslinks("shlwapi")
     end
 
+    if on_check then
+        on_check("windows", function (package)
+            import("core.tool.toolchain")
+
+            local msvc = toolchain.load("msvc", {plat = package:plat(), arch = package:arch()})
+            if msvc then
+                local vs = msvc:config("vs")
+                assert(vs and tonumber(vs) >= 2019, "package(field3d): current version need vs >= 2019")
+            end
+        end)
+    end
+
     on_load("windows", function (package)
         if not package:config("shared") then
             package:add("defines", "FIELD3D_STATIC")
@@ -24,12 +36,6 @@ package("field3d")
     end)
 
     on_install("windows", "macosx", "linux", function (package)
-        if package:is_plat("windows") then
-            local vs = import("core.tool.toolchain").load("msvc"):config("vs")
-            if tonumber(vs) < 2019 then
-                raise("Your compiler is too old to use this library.")
-            end
-        end
         io.writefile("xmake.lua", [[
             add_rules("mode.debug", "mode.release")
             set_languages("c++14")

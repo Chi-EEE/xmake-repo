@@ -35,6 +35,10 @@ package("botan")
         on_check("windows", function (package)
             import("core.tool.toolchain")
 
+            if package:has_tool("cxx", "clang_cl") then
+                raise("Unsupported toolchains on windows")
+            end
+
             local msvc = toolchain.load("msvc", {plat = package:plat(), arch = package:arch()})
             if msvc then
                 local vs = msvc:config("vs")
@@ -85,20 +89,12 @@ package("botan")
         local envs
         if package:is_plat("windows") then
             local msvc = package:toolchain("msvc")
-            assert(msvc:check(), "vs not found!")
-
-            local vs = msvc:config("vs")
-            if tonumber(vs) < 2019 then
-                raise("This version of Botan requires at least msvc 19.30")
-            end
 
             envs = msvc:runenvs()
             table.insert(configs, "--msvc-runtime=" .. package:runtimes())
 
             if package:has_tool("cxx", "cl") then
                 cc = "msvc"
-            elseif package:has_tool("cxx", "clang_cl") then
-                raise("Unsupported toolchains on windows")
             end
         else
             local cxx = package:build_getenv("cxx")

@@ -53,15 +53,20 @@ package("mosquitto")
         add_syslinks("ws2_32")
         deps_map["threading"] = "pthreads4w"
     end
- 
+
+    if on_check then
+        on_check("windows", function (package)
+            if package:version():eq("2.0.18") and package:is_arch("arm.*") then
+                raise("mosquitto 2.0.18 not support windows arm")
+            end
+        end)
+    end
+    
     on_load("windows", "linux", "macosx", function (package)
         for key, value in pairs(deps_map) do
             if package:config(key) then
                 package:add("deps", value)
             end
-        end
-        if package:version():eq("2.0.18") and package:is_plat("windows") and package:is_arch("arm.*") then
-            raise("mosquitto 2.0.18 not support windows arm")
         end
     end)
  

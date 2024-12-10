@@ -30,16 +30,18 @@ package("xerces-c")
         assert(ndk_sdkver and tonumber(ndk_sdkver) >= 26, "package(xerces-c): need ndk api level >= 26 for android armeabi-v7a")
     end)
 
-    on_check(function (package)
-        if package:config("xmlch_type") == "wchar_t" then
-            assert(package:is_plat("windows"), "Windows only")
-        end
-        if package:config("mutex_manager") == "windows" then
-            assert(package:is_plat("windows"), "Windows only")
-        elseif package:config("mutex_manager") == "posix" then
-            assert((not package:is_plat("windows")) or package:is_plat("cygwin"), "UNIX and Cygwin only")
-        end
-    end)
+    if on_check then
+        on_check(function (package)
+            if package:config("xmlch_type") == "wchar_t" then
+                assert(package:is_plat("windows"), "Windows only")
+            end
+            if package:config("mutex_manager") == "windows" then
+                assert(package:is_plat("windows"), "Windows only")
+            elseif package:config("mutex_manager") == "posix" then
+                assert((not package:is_plat("windows")) or package:is_plat("cygwin"), "UNIX and Cygwin only")
+            end
+        end)
+    end
 
     on_load(function (package)
         if package:config("transcoder") == "system_transcoder" then

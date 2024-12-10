@@ -30,6 +30,18 @@ package("kokkos-kernels")
         end)
     end
 
+    if on_check then
+        on_check("windows|x86", function (package)
+            import("core.tool.toolchain")
+
+            local msvc = toolchain.load("msvc", {plat = package:plat(), arch = package:arch()})
+            if msvc then
+                local vs = msvc:config("vs")
+                assert(vs and tonumber(vs) >= 2022, "package(kokkos-kernels): current version need vs >= 2022")
+            end
+        end)
+    end
+
     on_load(function (package)
         local kokkos = "kokkos"
         local version = package:version()
@@ -46,12 +58,6 @@ package("kokkos-kernels")
     end)
 
     on_install("windows|x64", "macosx|x86_64", "linux", function (package)
-        if package:is_plat("windows") then
-            local vs = import("core.tool.toolchain").load("msvc"):config("vs")
-            if tonumber(vs) < 2022 then
-                raise("Your compiler is too old to use this library.")
-            end
-        end
         local configs = {}
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
         table.insert(configs, "-DBUILD_SHARED_LIBS=" .. (package:config("shared") and "ON" or "OFF"))
