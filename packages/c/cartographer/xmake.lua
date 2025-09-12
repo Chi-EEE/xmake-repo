@@ -24,7 +24,7 @@ package("cartographer")
     add_deps("protobuf-cpp 3.19.4")
     add_deps("abseil", "cairo", "eigen", "lua")
 
-    on_install("windows|x64", "windows|x86", "macosx|x86_64", "linux", function (package)
+    on_install(function (package)
         for _, headerfile in ipairs(os.files("cartographer/**.h")) do
             io.replace(headerfile, "cairo/cairo.h", "cairo.h", {plain = true})
         end
